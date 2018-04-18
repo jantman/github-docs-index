@@ -41,7 +41,7 @@ Pre-alpha. Just planning.
 Planned Features
 ----------------
 
-* Docutils for generation; flexible output to a variety of formats.
+* Outputs docutils-ready reStructuredText for processing or conversion to a variety of formats.
 * Supports a manually-curated "quick links" section at the top of the page, which can include arbitrary non-GitHub URLs
 * Iterates repositories in any number of Organizations (or Users) on github.com and/or any number of GitHub Enterprise instances. Allows blacklisting or whitelisting repositories per-org/user.
 * Output sorted alphabetically and/or by last commit date.
