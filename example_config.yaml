@@ -1,0 +1,35 @@
+githubs:
+  # this first one is implicitly github.com
+  - token_env_var: GITHUB_TOKEN
+    orgs: foo, bar
+    users: me, you
+  - url: https://ghe.example.com
+    token_env_var: GHE_TOKEN
+    orgs: one, two, three
+    blacklist_repos: two/puppet, three/chef
+  - url: https://ghe.other.com
+    token_env_var: OTHER_GHE_TOKEN
+    orgs: one, four
+    users: someone
+    whitelist_repos: one/a, four/b, someone/c, someone/d
+ignore_forks: true
+quick_links:
+  - title: Our Intranet
+    url: https://intranet.example.com
+  - title: Our ticketing system
+    description: no idea why this is linked in a docs index
+    url: https://tickets.example.com
+  - title: Big Project
+    description: some big project
+    url: https://project.example.com
+  - title: Important Repo
+    url: https://ghe.other.com/four/reponame
+# this is the order used to determine whether to show a repository in the list or not.
+# if a repo doesn't meet any of these, it isn't shown. Otherwise, we use these in the order
+# specified to determine if we show a repo, and if so, what we show about it
+repo_criteria:
+  - repo_url # if present, use the Repository URL (at the top of the repo page, next to the description) as the link
+  - github_pages # otherwise, if present, use the repo's GitHub Pages URL as the link
+  - readme: 100 # for any repo with a README >= 100 bytes, link to the repo itself
+  - description # for any repo with a description set, link to the repo itself
+  - all # link to ALL repos, even if they don't have any of the above

@@ -42,7 +42,7 @@ Planned Features
 ----------------
 
 * Docutils for generation; flexible output to a variety of formats.
-* Supports adding static links to non-GitHub URLS, and a manually-curated "quick links" section at the top of the page.
+* Supports a manually-curated "quick links" section at the top of the page, which can include arbitrary non-GitHub URLs
 * Iterates repositories in any number of Organizations (or Users) on github.com and/or any number of GitHub Enterprise instances. Allows blacklisting or whitelisting repositories per-org/user.
 * Output sorted alphabetically and/or by last commit date.
 * Configurable to show only repositories with GitHub Pages, a Repository URL, repositories with a README file longer than a specified length, repositories with a description, or all repositories.
