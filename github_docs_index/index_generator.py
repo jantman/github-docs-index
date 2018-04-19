@@ -36,14 +36,6 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 """
 
 
-class Config(object):
-    """
-    parse the YAML config file, validate it, and present a simple
-    interface to it
-    """
-    pass
-
-
 class RepoLink(object):
     """
     Represents one repository that should be linked to in the docs index.
@@ -70,26 +62,10 @@ class RepoLink(object):
         pass
 
 
-class GithubInstance(object):
-    """
-    Represents a distinct GitHub instance that we want to find docs on.
-    """
+class GithubDocsIndexGenerator(object):
 
-    def __init__(self, url, token, org_or_user_names,
-                 blacklist_repos=[], whitelist_repos=[]):
-        pass
-
-    def get_docs_repos(self):
-        """
-        iterate over each org
-        for each org, iterate over each repo not in blacklist, or if
-           whitelist is specified, only those repos.
-        create RepoLink instances for each repo that matches our criteria.
-        return the list of RepoLink instances
-        """
-        pass
-
-class GithubDocsIndexer(object):
+    def __init__(self, config):
+        self._conf = config
 
     def generate_index(self):
         """
@@ -97,6 +73,10 @@ class GithubDocsIndexer(object):
         Construct a GithubInstance for each github we want to check, call
            get_docs_repos() for them, build a list of all of them.
         Add those lists to the index doc, sorted as requested.
-        Return the doc, or some representation of it.
+        Return the rST document.
         """
-        pass
+        # first build the overall doc, section headers and anchors, quick links
+        # then retrieve all the repos from the GithubInstances,
+        # then sort them and build out the rest of the doc
+        # finally, return the rST string
+        return ''

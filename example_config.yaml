@@ -1,17 +1,18 @@
 githubs:
   # this first one is implicitly github.com
   - token_env_var: GITHUB_TOKEN
-    orgs: foo, bar
-    users: me, you
+    # if the "users" and "orgs" keys are not specified or are empty lists,
+    # we default to looking at all Organizations that the GITHUB_TOKEN user
+    # is a member of
+    blacklist_repos: [two/puppet, three/chef]
   - url: https://ghe.example.com
     token_env_var: GHE_TOKEN
-    orgs: one, two, three
-    blacklist_repos: two/puppet, three/chef
+    orgs: [one, two, three]
   - url: https://ghe.other.com
     token_env_var: OTHER_GHE_TOKEN
-    orgs: one, four
+    orgs: [one, four]
     users: someone
-    whitelist_repos: one/a, four/b, someone/c, someone/d
+    whitelist_repos: [one/a, four/b, someone/c, someone/d]
 ignore_forks: true
 quick_links:
   - title: Our Intranet

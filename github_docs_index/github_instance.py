@@ -35,49 +35,43 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 ##################################################################################
 """
 
-from setuptools import setup, find_packages
-from github_docs_index.version import VERSION, PROJECT_URL
+import os
+import logging
 
-with open('README.rst') as file:
-    long_description = file.read()
+logger = logging.getLogger(__name__)
 
-requires = [
-    'PyYAML>=3.0, <4.0'
-]
 
-classifiers = [
-    'Development Status :: 1 - Planning',
-    'License :: OSI Approved :: GNU Affero General Public License '
-    'v3 or later (AGPLv3+)',
-    'Programming Language :: Python',
-    'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.4',
-    'Programming Language :: Python :: 3.5',
-    'Programming Language :: Python :: 3.6',
-    'Environment :: Console',
-    'Intended Audience :: Developers',
-    'Intended Audience :: Information Technology',
-    'Intended Audience :: System Administrators',
-    'Natural Language :: English',
-    'Operating System :: OS Independent',
-    'Topic :: Documentation',
-]
+class GithubInstance(object):
 
-setup(
-    name='github-docs-index',
-    version=VERSION,
-    author='Jason Antman',
-    author_email='jason@jasonantman.com',
-    packages=find_packages(),
-    url=PROJECT_URL,
-    description='Description here.',
-    long_description=long_description,
-    install_requires=requires,
-    keywords="github documentation index html docutils",
-    classifiers=classifiers,
-    entry_points="""
-    [console_scripts]
-    github-docs-index = github_docs_index.runner:main
-    """
-)
+    def __init__(self, token_env_var, url='https://api.github.com', users=[],
+                 orgs=[], blacklist_repos=[], whitelist_repos=[]):
+        self._token_env_var = token_env_var
+        self._token = os.environ[self._token_env_var]
+        self._url = url
+        self._users = users
+        self._orgs = orgs
+        self._blacklist_repos = blacklist_repos
+        self._whitelist_repos = whitelist_repos
+
+    @property
+    def as_dict(self):
+        return {
+            'token_env_var': self._token_env_var,
+            'url': self._url,
+            'orgs': self._orgs,
+            'users': self._users,
+            'whitelist_repos': self._whitelist_repos,
+            'blacklist_repos': self._blacklist_repos
+        }
+
+    def get_docs_repos(self):
+        """
+        iterate over each org
+        for each org, iterate over each repo not in blacklist, or if
+           whitelist is specified, only those repos.
+        create RepoLink instances for each repo that matches our criteria.
+        return the list of RepoLink instances
+        """
+        # if self._users is [] and self._orgs is [], and no whitelist,
+        # default to all orgs we're a member of
+        pass
