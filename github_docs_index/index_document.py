@@ -35,23 +35,8 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 ##################################################################################
 """
 
-from github_docs_index.index_document import IndexDocument
-
-
-class GithubDocsIndexGenerator(object):
+class IndexDocument(object):
+    """Class to represent the actual index document"""
 
     def __init__(self, config):
         self._conf = config
-        self._links = []
-
-    def generate_index(self):
-        """
-        Main entry point to query GitHub, retrieve repository information,
-        generate the index document and return rST.
-
-        :returns: generated rST index document
-        """
-        doc = IndexDocument(self._conf)
-        for gh in self._conf.githubs:
-            doc.add_repo_links(gh.get_docs_repos())
-        return doc.generate_rst()

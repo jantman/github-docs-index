@@ -37,14 +37,18 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 
 import os
 import logging
+from github3 import login, enterprise_login
+
+from github_docs_index.repo_link import RepoLink
 
 logger = logging.getLogger(__name__)
 
 
 class GithubInstance(object):
 
-    def __init__(self, token_env_var, url='https://api.github.com', users=[],
-                 orgs=[], blacklist_repos=[], whitelist_repos=[]):
+    def __init__(self, config, token_env_var, url='https://api.github.com',
+                 users=[], orgs=[], blacklist_repos=[], whitelist_repos=[]):
+        self._conf = config
         self._token_env_var = token_env_var
         self._token = os.environ[self._token_env_var]
         self._url = url
@@ -52,6 +56,10 @@ class GithubInstance(object):
         self._orgs = orgs
         self._blacklist_repos = blacklist_repos
         self._whitelist_repos = whitelist_repos
+        if self._url == 'https://api.github.com':
+            self._gh = login(token=self._token)
+        else:
+            self._gh = enterprise_login(url=self._url, token=self._token)
 
     @property
     def as_dict(self):
@@ -66,12 +74,22 @@ class GithubInstance(object):
 
     def get_docs_repos(self):
         """
-        iterate over each org
-        for each org, iterate over each repo not in blacklist, or if
-           whitelist is specified, only those repos.
-        create RepoLink instances for each repo that matches our criteria.
-        return the list of RepoLink instances
+        Iterate over all specified users/orgs and identify all suitable repos.
+        Return a list of :py:class:`~.RepoLink` instances for all repos that
+        match the configured criteria.
+
+        :returns: all repos that should be included in the index
+        :rtype: ``list`` of :py:class:`~.RepoLink` objects.
         """
+        if len(self._users) == 0 and len(self._orgs) == 0:
+            logger.debug(
+                'No users or orgs specified; using all orgs that current'
+                ' user/token is a member of'
+            )
+            self._orgs = self._get_orgs_for_token()
+            logger.debug('Orgs to search: %s', self._orgs)
         # if self._users is [] and self._orgs is [], and no whitelist,
         # default to all orgs we're a member of
+        # iterate over each org
+        # iterate over each repo in org, respecting whitelist/blacklist
         pass

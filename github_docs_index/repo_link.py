@@ -35,23 +35,28 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 ##################################################################################
 """
 
-from github_docs_index.index_document import IndexDocument
 
+class RepoLink(object):
+    """
+    Represents one repository that should be linked to in the docs index.
+    """
 
-class GithubDocsIndexGenerator(object):
+    @property
+    def lower_case_name(self):
+        pass
 
-    def __init__(self, config):
-        self._conf = config
-        self._links = []
+    @property
+    def last_commit_date(self):
+        pass
 
-    def generate_index(self):
-        """
-        Main entry point to query GitHub, retrieve repository information,
-        generate the index document and return rST.
+    @property
+    def title(self):
+        pass
 
-        :returns: generated rST index document
-        """
-        doc = IndexDocument(self._conf)
-        for gh in self._conf.githubs:
-            doc.add_repo_links(gh.get_docs_repos())
-        return doc.generate_rst()
+    @property
+    def description(self):
+        pass
+
+    @property
+    def url(self):
+        pass

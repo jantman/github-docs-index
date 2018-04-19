@@ -91,7 +91,7 @@ class Config(object):
         for g in self._yaml['githubs']:
             d = deepcopy(blank)
             d.update(g)
-            self._githubs.append(GithubInstance(**d))
+            self._githubs.append(GithubInstance(self, **d))
         logger.debug('Loaded %d GitHubs', len(self._githubs))
 
     def _load_quick_links(self):
@@ -110,6 +110,47 @@ class Config(object):
             'quick_links': [l.as_dict for l in self._quick_links],
             'repo_criteria': self._repo_criteria
         }
+
+    @property
+    def githubs(self):
+        """
+        Return a list of configured GitHub Instances to poll.
+
+        :returns: list of GitHub instances to poll.
+        :rtype: ``list`` of :py:class:`~.GithubInstance`
+        """
+        return self._githubs
+
+    @property
+    def ignore_forks(self):
+        """
+        Return whether or not the index generator should ignore forks.
+
+        :returns: whether or not forks should be ignored
+        :rtype: bool
+        """
+        return self._ignore_forks
+
+    @property
+    def quick_links(self):
+        """
+        Return a list of dicts representing Quick Links to add to the top of
+        the index document.
+
+        :returns: list of quick link dicts
+        :rtype: ``list`` of ``dict``s
+        """
+        return self._quick_links
+
+    @property
+    def repo_criteria(self):
+        """
+        Return the list of repository criteria for inclusion in index.
+
+        :returns: repository criteria
+        :rtype: ``list``
+        """
+        return self._repo_criteria
 
 
 class QuickLink(object):
