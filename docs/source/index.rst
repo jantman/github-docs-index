@@ -9,6 +9,7 @@ Contents
 .. toctree::
    :maxdepth: 4
 
+   Example Configuration <example_config>
    Example Output <example_output>
    API <modules>
    Changelog <changes>

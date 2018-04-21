@@ -1,5 +1,5 @@
-github-docs-index
-===============
+github_docs_index
+=================
 
 .. toctree::
    :maxdepth: 4

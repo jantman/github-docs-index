@@ -2,7 +2,7 @@ github-docs-index
 =================
 
 .. image:: https://img.shields.io/pypi/v/github-docs-index.svg?maxAge=2592000
-   :target: https://pypi.python.org/pypi/github-docs-index
+   :target: https://pypi.org/project/github-docs-index
    :alt: pypi version
 
 .. image:: https://img.shields.io/github/forks/jantman/github-docs-index.svg
@@ -32,6 +32,8 @@ github-docs-index
 Generate a single-page index of documentation hosted in one or more GitHub organizations on github.com and/or one or more GitHub Enterprise instances.
 
 This package is intended for organizations that host their documentation alongside code on GitHub (including GitHub Enterprise) and need a convenient single-page index to help people find things. It's a small, opinionated, and purpose-specific tool, originally written so that my team could have a master index of our documentation (spread across github.com, two GitHub Enterprises, Confluence, and another intranet solution) without having to remember to add every new repository.
+
+**Full documentation is available on ReadTheDocs:** http://github-docs-index.readthedocs.io/en/latest/
 
 Features
 --------
@@ -129,7 +131,7 @@ The optional subtitle (line below the title) and footer (line at the bottom of t
 Example Output
 --------------
 
-You can see an example of the actual HTML output for my own github user in the source tree at `example_output.rst <https://github.com/jantman/github-docs-index/blob/master/example_output.rst>`_.
+You can see an example of the actual HTML output for my own github user in the source tree at `example_output.rst <example_output.rst>`_.
 
 Python Usage
 ------------
@@ -179,7 +181,7 @@ github-docs-index can also be imported and used in other Python code. This can b
 Adding Documentation From Other Sources
 +++++++++++++++++++++++++++++++++++++++
 
-It's also possible via the Python API to include aribtrary documents from sources other than GitHub in the index; they will be sorted into the chronological and alphabetical lists along with the GitHub repositories. This can be helpful if you have other sources of documentation such as an Intranet or Wiki that you can programmatically query. The only requirement is that each document has a URL, title, date (generally a created/modified/updated date) and optional short description. The :py:meth:`github_docs_index.index_generator.GithubDocsIndexGenerator.generate_index` method takes an optional ``additional_links`` argument which is a list of instances of a subclass of :py:class:`github_docs_index.index_link.IndexLink`. So long as the instances implement the three properties of ``IndexLink``, they will be included in the documentation index. Here is a short, contrived example based on the code above which includes two other documents with hard-coded dates, titles and URLs; the ``generate_additional_links()`` function could be switched out for one which queries your alternate documentation stores and returns similar output.
+It's also possible via the Python API to include aribtrary documents from sources other than GitHub in the index; they will be sorted into the chronological and alphabetical lists along with the GitHub repositories. This can be helpful if you have other sources of documentation such as an Intranet or Wiki that you can programmatically query. The only requirement is that each document has a URL, title, date (generally a created/modified/updated date) and optional short description. The `GithubDocsIndexGenerator.generate_index <foobar>`_ method takes an optional ``additional_links`` argument which is a list of instances of a subclass of `github_docs_index.index_link.IndexLink <bazblam>`_. So long as the instances implement the three properties of ``IndexLink``, they will be included in the documentation index. Here is a short, contrived example based on the code above which includes two other documents with hard-coded dates, titles and URLs; the ``generate_additional_links()`` function could be switched out for one which queries your alternate documentation stores and returns similar output.
 
 .. code-block:: python
 
@@ -272,7 +274,7 @@ Guidelines
 Testing
 -------
 
-Testing is done via `pytest <http://pytest.org/latest/>`_, driven by `tox <http://tox.testrun.org/>`_.
+Testing is done via `pytest <http://pytest.org/latest/>`_, driven by `tox <https://tox.readthedocs.io/en/latest/>`_.
 
 * testing is as simple as:
 
@@ -292,12 +294,12 @@ Release Checklist
 6. Confirm that README.rst renders correctly on GitHub.
 7. Upload package to testpypi:
 
-   * Make sure your ~/.pypirc file is correct (a repo called ``test`` for https://testpypi.python.org/pypi)
+   * Make sure your ~/.pypirc file is correct (a repo called ``test`` for https://test.pypi.org/)
    * ``rm -Rf dist``
    * ``python setup.py register -r https://testpypi.python.org/pypi``
    * ``python setup.py sdist bdist_wheel``
    * ``twine upload -r test dist/*``
-   * Check that the README renders at https://testpypi.python.org/pypi/github-docs-index
+   * Check that the README renders at https://test.pypi.org/project/github-docs-index
 
 8. Create a pull request for the release to be merged into master. Upon successful Travis build, merge it.
 9. Tag the release in Git, push tag to GitHub:
