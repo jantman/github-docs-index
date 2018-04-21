@@ -46,7 +46,7 @@ from github_docs_index.index_generator import GithubDocsIndexGenerator
 logger = logging.getLogger(__name__)
 
 # suppress requests logging
-for lname in ['requests', 'botocore', 'boto3']:
+for lname in ['github3', 'urllib3']:
     l = logging.getLogger(lname)
     l.setLevel(logging.WARNING)
     l.propagate = True

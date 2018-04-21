@@ -42,7 +42,8 @@ with open('README.rst') as file:
     long_description = file.read()
 
 requires = [
-    'PyYAML>=3.0, <4.0'
+    'PyYAML>=3.0, <4.0',
+    'github3.py>=1.1.0, <2.0.0'
 ]
 
 classifiers = [

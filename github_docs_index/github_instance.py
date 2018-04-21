@@ -60,6 +60,11 @@ class GithubInstance(object):
             self._gh = login(token=self._token)
         else:
             self._gh = enterprise_login(url=self._url, token=self._token)
+        self._current_user = self._gh.me()
+        self._login = self._current_user.login
+        logger.info(
+            'Authenticated to %s as user %s', self._url, self._login
+        )
 
     @property
     def as_dict(self):
@@ -72,6 +77,16 @@ class GithubInstance(object):
             'blacklist_repos': self._blacklist_repos
         }
 
+    def _get_orgs_for_current_user(self):
+        """
+        Return a list of Organizations that the current user is a member of.
+
+        :return: Organization names/logins
+        :rtype: ``list``
+        """
+        logger.debug('Listing organization membership for current user')
+        return [o.login for o in self._current_user.organizations()]
+
     def get_docs_repos(self):
         """
         Iterate over all specified users/orgs and identify all suitable repos.
@@ -81,15 +96,97 @@ class GithubInstance(object):
         :returns: all repos that should be included in the index
         :rtype: ``list`` of :py:class:`~.RepoLink` objects.
         """
+        logger.debug(
+            'Iterating selected users and orgs as %s on %s',
+            self._login, self._url
+        )
         if len(self._users) == 0 and len(self._orgs) == 0:
             logger.debug(
-                'No users or orgs specified; using all orgs that current'
-                ' user/token is a member of'
+                'No users or orgs specified for %s; using all orgs that %s'
+                ' is a member of', self._url, self._login
             )
-            self._orgs = self._get_orgs_for_token()
+            self._orgs = self._get_orgs_for_current_user()
             logger.debug('Orgs to search: %s', self._orgs)
-        # if self._users is [] and self._orgs is [], and no whitelist,
-        # default to all orgs we're a member of
-        # iterate over each org
-        # iterate over each repo in org, respecting whitelist/blacklist
-        pass
+        all_repos = []
+        # add all user repos to list
+        for username in self._users:
+            logger.debug('Iterating repos for user: %s', username)
+            for repo in self._gh.repositories_by(username, type='owner'):
+                all_repos.append(
+                    self._gh.repository(repo.owner.login, repo.name)
+                )
+        # add all org repos to list
+        for orgname in self._orgs:
+            logger.debug('Iterating repos for organization: %s', orgname)
+            org = self._gh.organization(orgname)
+            for repo in org.repositories(type='all'):
+                all_repos.append(repo)
+        # now check each repo, and add to results as appropriate
+        results = []
+        logger.debug(
+            'Checking all %d repos for match against configured criteria',
+            len(all_repos)
+        )
+        for repo in all_repos:
+            if repo.full_name in self._blacklist_repos:
+                logger.debug(
+                    'Skipping blacklisted repo: %s', repo.full_name
+                )
+                continue
+            if (
+                self._whitelist_repos != [] and
+                repo.full_name not in self._whitelist_repos
+            ):
+                logger.debug(
+                    'Skipping non-whitelisted repo: %s', repo.full_name
+                )
+                continue
+            tmp = self._check_repo_criteria(repo)
+            if tmp is not None:
+                results.append(tmp)
+        logger.info(
+            'Found %d repos as %s on %s that match configured criteria',
+            len(results), self._login, self._url
+        )
+        return results
+
+    def _check_repo_criteria(self, repo):
+        """
+        Given a github3 Repository object, iterate through the configured
+        repo criteria (:py:attr:`~.Config.repo_criteria`) calling
+        :py:meth:`~._check_single_criterion` for each. Return the first
+        non-None result, or None.
+
+        :param repo: the repository to check
+        :type repo: github3.repos.repo.Repository
+        :return: Information for repository link, or None
+        :rtype: ``None`` or :py:class:`~.RepoLink`
+        """
+        logger.debug('Checking if repo meets criteria: %s', repo.full_name)
+        for criterion in self._conf.repo_criteria:
+            tmp = self._check_single_criterion(repo, criterion)
+            if tmp is not None:
+                logger.debug(
+                    'Repo %s matched criterion: %s', repo.full_name, criterion
+                )
+                return tmp
+        logger.debug('Repo %s did not match any criteria.', repo.full_name)
+        return None
+
+    def _check_single_criterion(self, repo, criterion):
+        """
+        Given a github3 Repository object and a criterion (entry in the
+        ``repo_criteria`` configuration list as returned by
+        :py:attr:`~.Config.repo_criteria`), return an appropriate
+        :py:class:`~.RepoLink` object if the repo matches the criterion, or None
+        otherwise.
+
+        :param repo: the repository to check
+        :type repo: github3.repos.repo.Repository
+        :param criterion: the criterion to check the repo against
+        :type criterion: ``str`` or ``dict``
+        :return: a RepoLink for the repo if it matches the criterion, or else
+          None
+        :rtype: :py:class:`~.RepoLink` or ``None``
+        """
+        return None

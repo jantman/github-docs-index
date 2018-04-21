@@ -40,3 +40,9 @@ class IndexDocument(object):
 
     def __init__(self, config):
         self._conf = config
+
+    def add_repo_links(self, links):
+        pass
+
+    def generate_rst(self):
+        pass
