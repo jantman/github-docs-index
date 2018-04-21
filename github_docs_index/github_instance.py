@@ -184,6 +184,38 @@ class GithubInstance(object):
         logger.debug('Repo %s did not match any criteria.', repo.full_name)
         return None
 
+    def _repolink_for_pages(self, repo):
+        """
+        Return a RepoLink pointing to the Github Pages site for the specified
+        repo. The `Pages API <https://developer.github.com/v3/repos/pages/>`_
+        is currently in Developer Preview (as of 2018-04-21) and requires a
+        special Accept header to be sent in order to return the ``html_url``
+        field.
+
+        :param repo: repository
+        :type repo: github3.repos.repo.Repository
+        :return: RepoLink instance pointing to the repo's Github Pages URL
+        :rtype: RepoLink
+        """
+        oldaccept = self._gh.session.headers.get('Accept', None)
+        self._gh.session.headers[
+            'Accept'
+        ] = 'application/vnd.github.mister-fantastic-preview+json'
+        try:
+            pages = repo.pages()
+            self._gh.session.headers['Accept'] = oldaccept
+            html_url = pages._json_data['html_url']
+        except KeyError:
+            raise RuntimeError(
+                'GitHub repository/pages API did not return "html_url" field; '
+                'it appears this package needs to be updated for changes to '
+                'the GitHub API.'
+            )
+        except Exception:
+            self._gh.session.headers['Accept'] = oldaccept
+            raise
+        return RepoLink(repo.owner.login, repo.name, html_url)
+
     def _check_single_criterion(self, repo, criterion):
         """
         Given a github3 Repository object and a criterion (entry in the
@@ -208,7 +240,7 @@ class GithubInstance(object):
         elif criterion == 'github_pages':
             if not repo.has_pages:
                 return None
-            rlink = RepoLink(repo.owner.login, repo.name, repo.pages().url)
+            rlink = self._repolink_for_pages(repo)
         elif isinstance(criterion, type({})) and 'readme' in criterion:
             readme_len = criterion.get('readme', None)
             if not isinstance(readme_len, type(12)):
