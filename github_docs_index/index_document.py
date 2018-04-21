@@ -49,12 +49,7 @@ class IndexDocument(object):
     
     {title}
     
-    Table of Contents
-    -----------------
-    
-    * `Quick Links <#quicklinks>`_
-    * `Chronological Index <#chrono>`_ (all documentation, most recent to oldest)
-    * `Alphabetical Index <#alpha>`_
+    < `Chronological Index <#chrono>`_ | `Alphabetical Index <#alpha>`_ >
     
     .. _quicklinks:
     
@@ -63,7 +58,7 @@ class IndexDocument(object):
     
     {quicklinks}
     
-    `Back to top. <#top>`_
+    < `top. <#top>`_ | `Quick Links <#quicklinks>`_ | `Alphabetical Index <#alpha>`_ >
     
     .. _chrono:
     
@@ -72,7 +67,7 @@ class IndexDocument(object):
     
     {chrono}
     
-    `Back to top. <#top>`_
+    < `top. <#top>`_ | `Quick Links <#quicklinks>`_ | `Chronological Index <#chrono>`_ >
     
     .. _alpha:
     
@@ -81,7 +76,7 @@ class IndexDocument(object):
     
     {alpha}
     
-    `Back to top. <#top>`_
+    < `top. <#top>`_ | `Quick Links <#quicklinks>`_ | `Chronological Index <#chrono>`_ | `Alphabetical Index <#alpha>`_ >
     {footer}
     """)
 
