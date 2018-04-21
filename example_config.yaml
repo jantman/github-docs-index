@@ -29,7 +29,7 @@ quick_links:
 # if a repo doesn't meet any of these, it isn't shown. Otherwise, we use these in the order
 # specified to determine if we show a repo, and if so, what we show about it
 repo_criteria:
-  - repo_url # if present, use the Repository URL (at the top of the repo page, next to the description) as the link
+  - homepage # if present, use the Repository Homepage URL (at the top of the repo page, next to the description) as the link
   - github_pages # otherwise, if present, use the repo's GitHub Pages URL as the link
   - readme: 100 # for any repo with a README >= 100 bytes, link to the repo itself
   - description # for any repo with a description set, link to the repo itself
