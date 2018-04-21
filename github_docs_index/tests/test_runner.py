@@ -36,14 +36,15 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 """
 
 import logging
-import pytest
-from datetime import datetime
-from unittest.mock import patch, call, Mock, DEFAULT, PropertyMock
+
+try:
+    from unittest.mock import patch, call, Mock
+except ImportError:
+    from mock import patch, call, Mock
 
 from github_docs_index.runner import (
-    set_log_debug, set_log_info, set_log_level_format, parse_args, main
+    set_log_debug, set_log_info, set_log_level_format, parse_args
 )
-from github_docs_index.version import VERSION, PROJECT_URL
 
 pbm = 'github_docs_index.runner'
 
@@ -60,17 +61,6 @@ class MockArgs(object):
 
 
 class TestParseArgs(object):
-
-    def test_parse_args_version(self, capsys):
-        with pytest.raises(SystemExit) as excinfo:
-            parse_args(['-V'])
-        assert excinfo.value.code == 0
-        expected = "github_docs_index v%s <%s>\n" % (
-            VERSION, PROJECT_URL
-        )
-        out, err = capsys.readouterr()
-        assert out == expected
-        assert err == ''
 
     def test_parse_args_default(self):
         res = parse_args(
