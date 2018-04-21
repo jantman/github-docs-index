@@ -158,7 +158,7 @@ class Config(object):
         the index document.
 
         :returns: list of quick link dicts
-        :rtype: ``list`` of ``dict``s
+        :rtype: ``list`` of ``dict``
         """
         return self._quick_links
 
