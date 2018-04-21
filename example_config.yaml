@@ -1,24 +1,31 @@
-title: title of the index document here
+title: Example github-docs-index Output
 footer: footer of the index document here; can be overridden via GITHUB_DOCS_FOOTER environment variable
-subtitle: subtitle of document here (line of text after title); can be overridden via GITHUB_DOCS_SUBTITLE environment variable
+subtitle: This is the subtitle I configured, which can be overridden via GITHUB_DOCS_SUBTITLE environment variable
 githubs:
   # this first one is implicitly github.com
-  - token_env_var: GITHUB_TOKEN
+  - token_env_var: SOME_GITHUB_TOKEN
     # if the "users" and "orgs" keys are not specified or are empty lists,
     # we default to looking at all Organizations that the GITHUB_TOKEN user
     # is a member of
     blacklist_repos: [two/puppet, three/chef]
     blacklist_orgs: [badOrg]
+  - token_env_var: GITHUB_TOKEN
+    users: [jantman]
   - url: https://ghe.example.com
     token_env_var: GHE_TOKEN
     orgs: [one, two, three]
   - url: https://ghe.other.com
     token_env_var: OTHER_GHE_TOKEN
     orgs: [one, four]
-    users: someone
+    users: [someone]
     whitelist_repos: [one/a, four/b, someone/c, someone/d]
 ignore_forks: true
 quick_links:
+  - title: My Blog
+    url: http://blog.jasonantman.com/
+  - title: My Resume
+    url: http://resume.jasonantman.com/
+    description: source for this is at https://github.com/jantman/resume
   - title: Our Intranet
     url: https://intranet.example.com
   - title: Our ticketing system

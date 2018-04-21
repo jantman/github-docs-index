@@ -26,7 +26,7 @@ Chronological Index (most recently updated first)
 * `github-docs-index <https://github.com/jantman/github-docs-index>`_ - Generate a single-page index of documentation hosted in one or more GitHub organizations on github.com and/or one or more GitHub Enterprise instances.
 * `aws-docs-history <https://github.com/jantman/aws-docs-history>`_ - Historical versions of AWS documentation
 * `awslimitchecker <http://awslimitchecker.readthedocs.org/>`_ - A script and python module to check your AWS service limits and usage via boto.
-* `blog <https://api.github.com/repos/jantman/blog/pages>`_ - my blog
+* `blog <http://blog.jasonantman.com/>`_ - my blog
 * `python-package-skeleton <https://github.com/jantman/python-package-skeleton>`_ - Skeleton for a python package, complete with tox/Travis-CI, Landscape.io, codecov, etc.
 * `biweeklybudget <http://biweeklybudget.readthedocs.io/en/latest/>`_ - Responsive Flask/SQLAlchemy personal finance app, specifically for biweekly budgeting.
 * `xfinity-usage <https://github.com/jantman/xfinity-usage>`_ - Python/selenium script to get Xfinity bandwidth usage
@@ -49,15 +49,15 @@ Chronological Index (most recently updated first)
 * `rspec-matcher-hash-item <https://github.com/jantman/rspec-matcher-hash-item>`_ - Rspec matchers for dealing with hashes and their content
 * `crondigest <https://github.com/jantman/crondigest>`_ - A cron job wrapper to send batched digest email and notify of missed jobs
 * `franz-recipe-pushover <https://github.com/jantman/franz-recipe-pushover>`_ - meetfranz.com (Franz 5) recipe for Pushover
-* `jantman.github.io <https://api.github.com/repos/jantman/jantman.github.io/pages>`_ - My personal homepage
+* `jantman.github.io <https://jantman.github.io/>`_ - My personal homepage
 * `ecsjobs <https://github.com/jantman/ecsjobs>`_ - A scheduled job wrapper for ECS, focused on email reporting and adding docker exec and local command abilities.
-* `puppet-archlinux-macbookretina <https://api.github.com/repos/jantman/puppet-archlinux-macbookretina/pages>`_ - Puppet module and accompanying documentation to install/setup Arch linux on a MacBook Pro Retina 11,4
+* `puppet-archlinux-macbookretina <http://jantman.github.io/puppet-archlinux-macbookretina/>`_ - Puppet module and accompanying documentation to install/setup Arch linux on a MacBook Pro Retina 11,4
 * `webhook2lambda2sqs <https://github.com/jantman/webhook2lambda2sqs>`_ - Generate code and manage infrastructure for receiving webhooks with AWS API Gateway and pushing to SQS via Lambda.
 * `tf-vol-attachment-cycle <https://github.com/hashicorp/terraform/issues/16237>`_ - Proof-of-concept for Terraform issue 16237
 * `tf-consul-lock-reproduce <https://github.com/jantman/tf-consul-lock-reproduce>`_ - code to reproduce the terraform "consul lock was lost" error
 * `resume <http://resume.jasonantman.com>`_ - My resume. see http://resume.jasonantman.com
 * `puppet-facter-facts <https://github.com/jantman/puppet-facter-facts>`_ - a collection of facts for user with Facter and Puppet
-* `puppet-archlinux-workstation <https://api.github.com/repos/jantman/puppet-archlinux-workstation/pages>`_ - Puppet module for configuring various aspects of an Arch Linux workstation/desktop.
+* `puppet-archlinux-workstation <http://jantman.github.io/puppet-archlinux-workstation/>`_ - Puppet module for configuring various aspects of an Arch Linux workstation/desktop.
 * `workstation-bootstrap <https://github.com/jantman/workstation-bootstrap>`_ - My r10k/puppet based workstation bootstrapping and configuration
 * `php-nagios-xml <https://github.com/jantman/php-nagios-xml>`_ - This is a PHP script that parses the Nagios status.dat file into an array, and then outputs that array as XML. There is also a PHP module written in C to do the same task, and based on the same code.
 * `piface-webhooks <https://github.com/jantman/piface-webhooks>`_ - Python script/daemon to read RPi PiFace inputs and run a webhook when they change
@@ -126,7 +126,7 @@ Alphabetical Index
 * `aws-docs-history <https://github.com/jantman/aws-docs-history>`_ - Historical versions of AWS documentation
 * `awslimitchecker <http://awslimitchecker.readthedocs.org/>`_ - A script and python module to check your AWS service limits and usage via boto.
 * `biweeklybudget <http://biweeklybudget.readthedocs.io/en/latest/>`_ - Responsive Flask/SQLAlchemy personal finance app, specifically for biweekly budgeting.
-* `blog <https://api.github.com/repos/jantman/blog/pages>`_ - my blog
+* `blog <http://blog.jasonantman.com/>`_ - my blog
 * `BoardTest <https://github.com/jantman/BoardTest>`_ - Testing various GitHub kanban boards
 * `boguskeys <https://github.com/jantman/boguskeys>`_ - SSH keys that I want github to allow, but I don't actually want to give access to my stuff.
 * `boxen <https://github.com/jantman/boxen>`_ - boxen.github.com for my Mac
@@ -145,7 +145,7 @@ Alphabetical Index
 * `helga-queue <https://github.com/jantman/helga-queue>`_ - A simple helga IRC bot plugin to let you manage a short queue (FIFO) of strings (eg. todo items).
 * `howtopuppet <howtopuppet.com>`_ - howtopuppet.com - a community FAQ site for Puppet and related technologies
 * `ideas-for-projects <https://github.com/jantman/ideas-for-projects>`_ - Various ideas I've had for different projects, which I haven't started yet.
-* `jantman.github.io <https://api.github.com/repos/jantman/jantman.github.io/pages>`_ - My personal homepage
+* `jantman.github.io <https://jantman.github.io/>`_ - My personal homepage
 * `jiveapi <http://jiveapi.readthedocs.io/>`_ - Simple and limited Python client for Jive collaboration software ReST API v3, along with utilities for massaging HTML to display better on Jive.
 * `kbdtest <https://github.com/jantman/kbdtest>`_ - wxPython tool for testing keyboards on Linux/Mac/Unix operating systems
 * `kvmdash <https://github.com/jantman/kvmdash>`_ - kvmdash is a simple Python daemon and web app to collect information about libvirt-controlled qemu/kvm guest VMs running on standalone hosts, ans present the information on a single web page (with a simple API). It will also include a companion Puppet module for installation, and Facter facts that make use of the data.
@@ -163,8 +163,8 @@ Alphabetical Index
 * `piface-webhooks <https://github.com/jantman/piface-webhooks>`_ - Python script/daemon to read RPi PiFace inputs and run a webhook when they change
 * `pizero-gpslog <https://github.com/jantman/pizero-gpslog>`_ - Raspberry Pi Zero gpsd logger with status LEDs
 * `PUP1244_test <https://github.com/jantman/PUP1244_test>`_ - tests for PUP-1244
-* `puppet-archlinux-macbookretina <https://api.github.com/repos/jantman/puppet-archlinux-macbookretina/pages>`_ - Puppet module and accompanying documentation to install/setup Arch linux on a MacBook Pro Retina 11,4
-* `puppet-archlinux-workstation <https://api.github.com/repos/jantman/puppet-archlinux-workstation/pages>`_ - Puppet module for configuring various aspects of an Arch Linux workstation/desktop.
+* `puppet-archlinux-macbookretina <http://jantman.github.io/puppet-archlinux-macbookretina/>`_ - Puppet module and accompanying documentation to install/setup Arch linux on a MacBook Pro Retina 11,4
+* `puppet-archlinux-workstation <http://jantman.github.io/puppet-archlinux-workstation/>`_ - Puppet module for configuring various aspects of an Arch Linux workstation/desktop.
 * `puppet-facter-facts <https://github.com/jantman/puppet-facter-facts>`_ - a collection of facts for user with Facter and Puppet
 * `puppet-nodemeister <https://github.com/jantman/puppet-nodemeister>`_ - A puppet module to install, configure and run the NodeMeister ENC.
 * `puppet-python-test <https://github.com/jantman/puppet-python-test>`_ - Test of a puppet-python module
