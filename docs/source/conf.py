@@ -485,13 +485,16 @@ def on_doctree_read(_, doctree):
                     label_ref_node, docname, 'exampleoutput',
                     'Example Output'
                 ],
-            'foobar':
+            'http://github-docs-index.readthedocs.io/en/latest/github_docs_'
+            'index.index_generator.html#github_docs_index.index_generator.'
+            'GithubDocsIndexGenerator.generate_index':
                 [
                     meth_ref_node, docname,
                     'github_docs_index.index_generator.'
                     'GithubDocsIndexGenerator.generate_index'
                 ],
-            'bazblam':
+            'http://github-docs-index.readthedocs.io/en/latest/github_docs_'
+            'index.index_link.html#github_docs_index.index_link.IndexLink':
                 [
                     class_ref_node, docname,
                     'github_docs_index.index_link.IndexLink'
