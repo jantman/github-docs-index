@@ -33,11 +33,6 @@ Generate a single-page index of documentation hosted in one or more GitHub organ
 
 This package is intended for organizations that host their documentation alongside code on GitHub (including GitHub Enterprise) and need a convenient single-page index to help people find things. It's a small, opinionated, and purpose-specific tool, originally written so that my team could have a master index of our documentation (spread across github.com, two GitHub Enterprises, Confluence, and another intranet solution) without having to remember to add every new repository.
 
-Status
-------
-
-Pre-alpha. Just planning.
-
 Planned Features
 ----------------
 
@@ -52,7 +47,7 @@ Requirements
 ------------
 
 * Python 2.7 or 3.4+ (currently tested with 2.7, 3.4, 3.5, 3.6)
-* Python `VirtualEnv <http://www.virtualenv.org/>`_ and ``pip`` (recommended installation method; your OS/distribution should have packages for these)
+* `VirtualEnv <http://www.virtualenv.org/>`_ and ``pip`` (recommended installation method; your OS/distribution should have packages for these)
 
 Installation
 ------------
@@ -70,10 +65,23 @@ Configuration
 
 Something here.
 
-Usage
------
+CLI Usage
+---------
 
 Something else here.
+
+Example Output
+--------------
+
+Python Usage
+------------
+
+Foo.
+
+Adding Documentation From Other Sources
++++++++++++++++++++++++++++++++++++++++
+
+Foo.
 
 Bugs and Feature Requests
 -------------------------

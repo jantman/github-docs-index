@@ -41,6 +41,7 @@ from copy import deepcopy
 import yaml
 
 from github_docs_index.github_instance import GithubInstance
+from github_docs_index.quick_link import QuickLink
 
 logger = logging.getLogger(__name__)
 
@@ -75,20 +76,39 @@ class Config(object):
                     'Configuration key "ignore_forks" must be boolean.'
                 )
             self._ignore_forks = self._yaml['ignore_forks']
+        if 'title' in self._yaml:
+            self._title = self._yaml['title']
+        else:
+            self._title = 'Documentation Index'
+        self._footer = ''
+        if 'footer' in self._yaml:
+            self._footer = self._yaml['footer']
+        if 'GITHUB_DOCS_FOOTER' in os.environ:
+            self._footer = os.environ['GITHUB_DOCS_FOOTER']
+        self._subtitle = ''
+        if 'subtitle' in self._yaml:
+            self._subtitle = self._yaml['subtitle']
+        if 'GITHUB_DOCS_SUBTITLE' in os.environ:
+            self._subtitle = os.environ['GITHUB_DOCS_SUBTITLE']
 
     def _load_githubs(self):
         keys = [
             'url', 'token_env_var', 'orgs', 'users', 'blacklist_repos',
-            'whitelist_repos'
+            'whitelist_repos', 'blacklist_orgs'
         ]
         blank = {
             'url': 'https://api.github.com',
             'orgs': [],
             'users': [],
             'blacklist_repos': [],
-            'whitelist_repos': []
+            'whitelist_repos': [],
+            'blacklist_orgs': []
         }
         for g in self._yaml['githubs']:
+            if not set(g.keys()).issubset(set(keys)):
+                raise RuntimeError(
+                    'ERROR: invalid keys in github configuration: %s' % g
+                )
             d = deepcopy(blank)
             d.update(g)
             self._githubs.append(GithubInstance(self, **d))
@@ -152,17 +172,14 @@ class Config(object):
         """
         return self._repo_criteria
 
-
-class QuickLink(object):
-
-    def __init__(self, title, url, description=None):
-        self._title = title
-        self._url = url
-        self._description = description
+    @property
+    def title(self):
+        return self._title
 
     @property
-    def as_dict(self):
-        d = {'title': self._title, 'url': self._url}
-        if self._description is not None:
-            d['description'] = self._description
-        return d
+    def footer(self):
+        return self._footer
+
+    @property
+    def subtitle(self):
+        return self._subtitle

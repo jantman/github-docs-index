@@ -35,14 +35,86 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 ##################################################################################
 """
 
+from textwrap import dedent
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 class IndexDocument(object):
     """Class to represent the actual index document"""
 
+    doc_template = dedent("""
+    .. _top:
+    
+    {title}
+    
+    Table of Contents
+    -----------------
+    
+    * `Quick Links <#quicklinks>`_
+    * `Chronological Index <#chrono>`_ (all documentation, most recent to oldest)
+    * `Alphabetical Index <#alpha>`_
+    
+    .. _quicklinks:
+    
+    Quick Links
+    -----------
+    
+    {quicklinks}
+    
+    `Back to top. <#top>`_
+    
+    .. _chrono:
+    
+    Chronological Index (most recently updated first)
+    -------------------------------------------------
+    
+    {chrono}
+    
+    `Back to top. <#top>`_
+    
+    .. _alpha:
+    
+    Alphabetical Index
+    ------------------
+    
+    {alpha}
+    
+    `Back to top. <#top>`_
+    {footer}
+    """)
+
     def __init__(self, config):
         self._conf = config
+        self._repo_links = []
+        self._doc = ''
 
-    def add_repo_links(self, links):
-        pass
+    def add_indexlinks(self, links):
+        self._repo_links.extend(links)
+        logger.debug('Added %d link instances', len(links))
 
     def generate_rst(self):
-        pass
+        title = self._conf.title + "\n" + '=' * len(self._conf.title)
+        if self._conf.subtitle != '':
+            title += '\n\n' + self._conf.subtitle
+        footer = ''
+        if self._conf.footer != '':
+            footer = '\n' + self._conf.footer
+        return self.doc_template.format(
+            title=title, footer=footer,
+            quicklinks='\n'.join([
+                '* %s' % ql.rst_line for ql in self._conf.quick_links
+            ]),
+            chrono='\n'.join([
+                '* %s' % r.rst_line for r in sorted(
+                    self._repo_links, key=lambda x: x.sort_datetime,
+                    reverse=True
+                )
+            ]),
+            alpha='\n'.join([
+                '* %s' % r.rst_line for r in sorted(
+                    self._repo_links, key=lambda x: x.sort_name
+                )
+            ])
+        )

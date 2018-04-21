@@ -47,7 +47,8 @@ logger = logging.getLogger(__name__)
 class GithubInstance(object):
 
     def __init__(self, config, token_env_var, url='https://api.github.com',
-                 users=[], orgs=[], blacklist_repos=[], whitelist_repos=[]):
+                 users=[], orgs=[], blacklist_repos=[], whitelist_repos=[],
+                 blacklist_orgs=[]):
         self._conf = config
         self._token_env_var = token_env_var
         self._token = os.environ[self._token_env_var]
@@ -56,6 +57,7 @@ class GithubInstance(object):
         self._orgs = orgs
         self._blacklist_repos = blacklist_repos
         self._whitelist_repos = whitelist_repos
+        self._blacklist_orgs = blacklist_orgs
         if self._url == 'https://api.github.com':
             self._gh = login(token=self._token)
         else:
@@ -74,7 +76,8 @@ class GithubInstance(object):
             'orgs': self._orgs,
             'users': self._users,
             'whitelist_repos': self._whitelist_repos,
-            'blacklist_repos': self._blacklist_repos
+            'blacklist_repos': self._blacklist_repos,
+            'blacklist_orgs': self._blacklist_orgs
         }
 
     def _get_orgs_for_current_user(self):
@@ -117,10 +120,15 @@ class GithubInstance(object):
                 )
         # add all org repos to list
         for orgname in self._orgs:
+            if orgname in self._blacklist_orgs:
+                logger.debug('Ignoring blacklisted org: %s', orgname)
+                continue
             logger.debug('Iterating repos for organization: %s', orgname)
             org = self._gh.organization(orgname)
             for repo in org.repositories(type='all'):
-                all_repos.append(repo)
+                all_repos.append(
+                    self._gh.repository(repo.owner.login, repo.name)
+                )
         # now check each repo, and add to results as appropriate
         results = []
         logger.debug(
@@ -189,4 +197,38 @@ class GithubInstance(object):
           None
         :rtype: :py:class:`~.RepoLink` or ``None``
         """
-        return None
+        rlink = None
+        if criterion == 'homepage':
+            if repo.homepage is None or repo.homepage == '':
+                return None
+            rlink = RepoLink(repo.owner.login, repo.name, repo.homepage)
+        elif criterion == 'github_pages':
+            if not repo.has_pages:
+                return None
+            rlink = RepoLink(repo.owner.login, repo.name, repo.pages().url)
+        elif isinstance(criterion, type({})) and 'readme' in criterion:
+            readme_len = criterion.get('readme', None)
+            if not isinstance(readme_len, type(12)):
+                raise RuntimeError('"readme" criterion must have an int value')
+            try:
+                readme = repo.readme()
+            except Exception:
+                return None
+            if readme.size < readme_len:
+                return None
+            rlink = RepoLink(repo.owner.login, repo.name, repo.html_url)
+        elif criterion == 'description':
+            if repo.description is None or repo.description.strip() == '':
+                return None
+            rlink = RepoLink(repo.owner.login, repo.name, repo.html_url)
+        elif criterion == 'all':
+            rlink = RepoLink(repo.owner.login, repo.name, repo.html_url)
+        else:
+            raise RuntimeError('Invalid criterion: %s', criterion)
+        if rlink is None:
+            return rlink
+        # RepoLink exists; update with common information
+        if repo.description not in [None, '']:
+            rlink.set_description(repo.description)
+        rlink.set_last_commit_datetime(repo.updated_at)
+        return rlink

@@ -35,28 +35,28 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 ##################################################################################
 """
 
-from github_docs_index.index_document import IndexDocument
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-class GithubDocsIndexGenerator(object):
+class QuickLink(object):
 
-    def __init__(self, config):
-        self._conf = config
-        self._links = []
+    def __init__(self, title, url, description=None):
+        self._title = title
+        self._url = url
+        self._description = description
 
-    def generate_index(self, additional_links=[]):
-        """
-        Main entry point to query GitHub, retrieve repository information,
-        generate the index document and return rST.
+    @property
+    def as_dict(self):
+        d = {'title': self._title, 'url': self._url}
+        if self._description is not None:
+            d['description'] = self._description
+        return d
 
-        :param additional_links: Optional list of additional
-          :py:class:`~.IndexLink` instances to include in the documentation
-          index.
-        :type additional_links: ``list`` of :py:class:`~.IndexLink`
-        :returns: generated rST index document
-        """
-        doc = IndexDocument(self._conf)
-        for gh in self._conf.githubs:
-            doc.add_indexlinks(gh.get_docs_repos())
-        doc.add_indexlinks(additional_links)
-        return doc.generate_rst()
+    @property
+    def rst_line(self):
+        r = '`%s <%s>`_' % (self._title, self._url)
+        if self._description is not None and self._description.strip() != '':
+            r += ' - ' + self._description
+        return r

@@ -1,3 +1,6 @@
+title: title of the index document here
+footer: footer of the index document here; can be overridden via GITHUB_DOCS_FOOTER environment variable
+subtitle: subtitle of document here (line of text after title); can be overridden via GITHUB_DOCS_SUBTITLE environment variable
 githubs:
   # this first one is implicitly github.com
   - token_env_var: GITHUB_TOKEN
@@ -5,6 +8,7 @@ githubs:
     # we default to looking at all Organizations that the GITHUB_TOKEN user
     # is a member of
     blacklist_repos: [two/puppet, three/chef]
+    blacklist_orgs: [badOrg]
   - url: https://ghe.example.com
     token_env_var: GHE_TOKEN
     orgs: [one, two, three]

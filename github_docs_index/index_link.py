@@ -35,28 +35,55 @@ Jason Antman <jason@jasonantman.com> <http://www.jasonantman.com>
 ##################################################################################
 """
 
-from github_docs_index.index_document import IndexDocument
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-class GithubDocsIndexGenerator(object):
+class IndexLink(object):
+    """
+    Base class to represent documents that will be linked in the index page.
+    """
 
-    def __init__(self, config):
-        self._conf = config
-        self._links = []
-
-    def generate_index(self, additional_links=[]):
+    @property
+    def sort_datetime(self):
         """
-        Main entry point to query GitHub, retrieve repository information,
-        generate the index document and return rST.
+        Return a datetime.datetime instance to be used when sorting documents
+        by creation/update time.
 
-        :param additional_links: Optional list of additional
-          :py:class:`~.IndexLink` instances to include in the documentation
-          index.
-        :type additional_links: ``list`` of :py:class:`~.IndexLink`
-        :returns: generated rST index document
+        :return: creation/modification time of the document for chronological
+          sorting
+        :rtype: datetime.datetime
         """
-        doc = IndexDocument(self._conf)
-        for gh in self._conf.githubs:
-            doc.add_indexlinks(gh.get_docs_repos())
-        doc.add_indexlinks(additional_links)
-        return doc.generate_rst()
+        raise NotImplementedError()
+
+    @property
+    def sort_name(self):
+        """
+        Return a lower-case string to be used as the document title/name when
+        sorting documents alphabetically.
+
+        :return: document name/title used for sorting documents alphabetically.
+          Should be lower-case.
+        :rtype: str
+        """
+        raise NotImplementedError()
+
+    @property
+    def rst_line(self):
+        """
+        Return the rsStructuredText link/line for this link; this will be used
+        as an item in the document list. This should be a hyperlink to the
+        document URL with the appropriate title, optionally followed by a
+        hyphen and the (~1 sentence) description if available. i.e.:
+
+            `title <http://example.com>`_
+
+        or:
+
+            `title <http://example.com>`_ - Description goes here.
+
+        :return: rst link to document, with optional description
+        :rtype: str
+        """
+        raise NotImplementedError()
