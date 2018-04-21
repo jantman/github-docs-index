@@ -149,6 +149,9 @@ class GithubInstance(object):
                     'Skipping non-whitelisted repo: %s', repo.full_name
                 )
                 continue
+            if self._conf.ignore_forks and repo.fork:
+                logger.debug('Skipping fork: %s', repo.full_name)
+                continue
             tmp = self._check_repo_criteria(repo)
             if tmp is not None:
                 results.append(tmp)
