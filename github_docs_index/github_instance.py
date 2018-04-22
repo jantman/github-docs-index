@@ -88,7 +88,7 @@ class GithubInstance(object):
         :rtype: ``list``
         """
         logger.debug('Listing organization membership for current user')
-        return [o.login for o in self._current_user.organizations()]
+        return [o.login for o in self._gh.organizations()]
 
     def get_docs_repos(self):
         """
