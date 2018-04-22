@@ -1,20 +1,6 @@
 language: python
 sudo: false
-
 cache: pip
-
-matrix:
-  include:
-    - python: "2.7"
-      env: TOXENV=py27
-    - python: "3.4"
-      env: TOXENV=py34
-    - python: "3.5"
-      env: TOXENV=py35
-    - python: "3.6"
-      env: TOXENV=py36
-    - python: "3.6"
-      env: TOXENV=docs
 
 install:
 - virtualenv --version
@@ -24,15 +10,52 @@ install:
 - pip install codecov
 - pip freeze
 - virtualenv --version
-script:
-  - tox -r
 
+script:
+- tox -r
 after_success:
-  - codecov
+- codecov
+
+stages:
+  - test
+  - name: deploy
+    if: tag IS present
+
+jobs:
+  include:
+    - stage: test
+      python: '2.7'
+      env: TOXENV=py27
+    - stage: test
+      python: '3.4'
+      env: TOXENV=py34
+    - stage: test
+      python: '3.5'
+      env: TOXENV=py35
+    - stage: test
+      python: '3.6'
+      env: TOXENV=py36
+    - stage: test
+      python: 3.7-dev
+      env: TOXENV=py37
+    - stage: test
+      python: '3.6'
+      env: TOXENV=docs
+    - stage: deploy
+      python: '3.6'
+      script: bash build_or_deploy.sh build
+      after_success: echo after_success
+      deploy:
+        provider: script
+        script: bash build_or_deploy.sh push
+        skip_cleanup: true
+        on:
+          tags: true
 
 notifications:
   email:
     on_failure: always
+
 branches:
   except:
-    - "/^noci-.*$/"
+  - "/^noci-.*$/"

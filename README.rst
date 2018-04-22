@@ -307,8 +307,4 @@ Release Checklist
    * tag the release. for now the message is quite simple: ``git tag -s -a X.Y.Z -m 'X.Y.Z released YYYY-MM-DD'``
    * push the tag to GitHub: ``git push origin X.Y.Z``
 
-11. Upload package to live pypi:
-
-    * ``twine upload dist/*``
-
-10. make sure any GH issues fixed in the release were closed.
+11. TravisCI will cut the release and upload to PyPI.
