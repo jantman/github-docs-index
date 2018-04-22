@@ -72,7 +72,9 @@ setup(
     author_email='jason@jasonantman.com',
     packages=find_packages(),
     url=PROJECT_URL,
-    description='Description here.',
+    description='Generate a single-page index of documentation hosted in one '
+                'or more GitHub organizations on github.com and/or one or '
+                'more GitHub Enterprise instances.',
     long_description=long_description,
     install_requires=requires,
     keywords="github documentation index html docutils",
